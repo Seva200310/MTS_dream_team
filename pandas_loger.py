@@ -9,7 +9,7 @@ class Pandas_loger():
     def save_csv(self):
         self.data.to_csv("route_log.csv")
 
-if name == 'main':
+if __name__ == 'main':
     loger = Pandas_loger()
     row = {'down_x_offset':-90,'down_y_offset':10,'left_side_distance':22,'right_side_distance':-9,'rotation_yaw':10}
     loger.add_row(row)
