@@ -1,7 +1,7 @@
 import requests 
 import json
 
-token = "5035d904-c58d-4e7f-a1bd-bcaf5d6c0bbd70b4e88a-2054-47b0-a4c3-d7950f5e4da3"
+token = "0805a662-5a69-4af4-9062-ffbf77fc0f5f6872910f-a156-4c3c-96aa-190435dc0462"
 
 
 class Robot_controller():
@@ -27,6 +27,9 @@ class Robot_controller():
         return json.loads(response.content)
 
 controller = Robot_controller(token)
+controller.restart()
+for i in range(1):
+    controller.turn_right()
 response = controller.get_sensor_data()
 #response = requests.post("http://127.0.0.1:8801/api/v1/robot-python/restart?token=5035d904-c58d-4e7f-a1bd-bcaf5d6c0bbd70b4e88a-2054-47b0-a4c3-d7950f5e4da3")
 print(response)
