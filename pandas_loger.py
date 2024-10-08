@@ -9,14 +9,15 @@ class Pandas_loger():
     def save_csv(self):
         self.data.to_csv("route_log.csv")
 
-loger = Pandas_loger()
-row = {'down_x_offset':-90,'down_y_offset':10,'left_side_distance':22,'right_side_distance':-9,'rotation_yaw':10}
-loger.add_row(row)
-row = {'down_x_offset':-90,'down_y_offset':10,'left_side_distance':22,'right_side_distance':-9,'rotation_yaw':10}
-loger.add_row(row)
-row = {'down_x_offset':-90,'down_y_offset':10,'left_side_distance':22,'right_side_distance':-9,'rotation_yaw':10}
-loger.add_row(row)
-row = {'down_x_offset':-90,'down_y_offset':10,'left_side_distance':22,'right_side_distance':-9,'rotation_yaw':10}
-loger.add_row(row)
-#row = [90,10,22,9,10]
-loger.save_csv()
+if name == 'main':
+    loger = Pandas_loger()
+    row = {'down_x_offset':-90,'down_y_offset':10,'left_side_distance':22,'right_side_distance':-9,'rotation_yaw':10}
+    loger.add_row(row)
+    row = {'down_x_offset':-90,'down_y_offset':10,'left_side_distance':22,'right_side_distance':-9,'rotation_yaw':10}
+    loger.add_row(row)
+    row = {'down_x_offset':-90,'down_y_offset':10,'left_side_distance':22,'right_side_distance':-9,'rotation_yaw':10}
+    loger.add_row(row)
+    row = {'down_x_offset':-90,'down_y_offset':10,'left_side_distance':22,'right_side_distance':-9,'rotation_yaw':10}
+    loger.add_row(row)
+    #row = [90,10,22,9,10]
+    loger.save_csv()
