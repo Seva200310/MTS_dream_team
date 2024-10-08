@@ -3,7 +3,7 @@ import pandas as pd
 class Pandas_loger():
     def __init__(self):
         self.data = pd.DataFrame(columns = ['down_x_offset','down_y_offset','left_side_distance','right_side_distance','rotation_yaw'])
-    def add_row(self,sensor_data):
+    def add_row(self,row):
         #self.data.append(sensor_data)
         self.data = pd.concat([self.data, pd.DataFrame(row, index=[0])], ignore_index=True)
     def save_csv(self):
