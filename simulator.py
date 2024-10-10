@@ -101,12 +101,12 @@ class Robot_controller():
         # Определяем, на сколько позиций нужно сдвинуть конфигурацию стен
         shift = int(yaw) // 90
         # Если угол поворота больше 180 градусов, сдвигаем элементы в обратном направлении
-        if yaw > 180:
-            shift = 4 - shift
+        #if yaw > 180:
+        shift = 4 - shift
         # Циклически сдвигаем элементы списка на указанное число позиций
-        print(shift)
-        print(wall_config[shift:])
-        rotated_config = wall_config[shift:] + wall_config[:shift]
+        #print(shift)
+        #print(wall_config[shift:])
+        rotated_config = wall_config[shift:]+wall_config[:shift]
         return rotated_config
     
 
