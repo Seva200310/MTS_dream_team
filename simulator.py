@@ -104,6 +104,8 @@ class Robot_controller():
         if yaw > 180:
             shift = 4 - shift
         # Циклически сдвигаем элементы списка на указанное число позиций
+        print(shift)
+        print(wall_config[shift:])
         rotated_config = wall_config[shift:] + wall_config[:shift]
         return rotated_config
     
@@ -127,7 +129,7 @@ print(controller.wall_encoding_dict[str([0,0,0,0])])
 
 print('------------------------------------------------------')
 print('Начало испытания')
-res = controller.get_sensor_data()
+res = controller.get_sensor_data_converted()
 print(res)
 print('------------------------------------------------------')
 print('Направо')
@@ -147,4 +149,4 @@ res = iter_test(controller,controller.move_forward)
 print(res)
 print("Result")
 print('------------------------------------------------------')
-print(controller.map)
+#print(controller.map)
