@@ -10,7 +10,24 @@ class Maze_bot():
         self.position_x = 0
         self.position_y = 15
         self.central_point = [7,8]
-        
+        self.map_encoder_dict = {
+            "[0, 0, 0, 0]":0,
+            "[0, 0, 0, 1]":1,
+            "[1, 0, 0, 0]":2,
+            "[0, 1, 0, 0]":3,
+            "[0, 0, 1, 0]":4,
+            "[0, 0, 1, 1]":5,
+            "[0, 1, 1, 0]":6,
+            "[1, 1, 0, 0]":7,
+            "[1, 0, 0, 1]":8,
+            "[0, 1, 0, 1]":9,
+            "[1, 0, 1, 0]":10,
+            "[1, 1, 1, 0]":11,
+            "[1, 1, 0, 1]":12,
+            "[1, 0, 1, 1]":13,
+            "[0, 1, 1, 1]":14,
+            "[1, 1, 1, 1]":15,
+        }
         
         self.map = [[[1,1,1,1] for _ in range(16)] for _ in range(16)]#задаем изначальное состояние карты - все клетки отмечены как непосещенные
         self.route = []
@@ -51,7 +68,7 @@ class Maze_bot():
     def get_sensor_data(self):#получить сырые данные с сенсора
         response = requests.get(f"http://127.0.0.1:8801/api/v1/robot-python/sensor-data?token={self.token}")
         return json.loads(response.content)
-    def get_sensor_data_converted(self):#функция которая возвращает sensor_data относительно ячееки матрицы
+    def get_sensor_data_converted(self):#функция которая возвращает sensor_data относительно ячееки матрицы info_mode просто возращает значения но не изменяют соответтвующее поле объекта
         data = self.get_sensor_data()
         data_dist = [data["front_distance"],data["right_side_distance"],data["back_distance"],data["left_side_distance"]]
         converted_data_dist = []
@@ -62,7 +79,6 @@ class Maze_bot():
 
         offset_x = self.central_point[0]-self.position_x
         offset_y = self.central_point[1]-self.position_y
-        
         converted_data = {"position_x":self.position_x,"position_y":self.position_y,"offset_x":offset_x,"offset_y":offset_y,"current_wall_config":current_wall_config,"current_wall_config_north":current_wall_config_north,"yaw": yaw}
         self.sensor_data  = converted_data
         return converted_data
@@ -80,7 +96,7 @@ class Maze_bot():
     def get_current_wall_config(self,data_dist,yaw):#функция возвращающая положение стен в текущей конфигурации
         wall_config = []
         for distance in data_dist:
-            if distance == 0:#там где расстояние равно 0 стена
+            if distance < 1:#там где расстояние равно 0 стена
                 wall_config.append(1)
             else:
                 wall_config.append(0)
@@ -101,6 +117,13 @@ class Maze_bot():
         #print(wall_config[shift:])
         rotated_config = wall_config[shift:]+wall_config[:shift]
         return rotated_config
+    def encode_map(self):
+        encoded_map = [[15 for _ in range(16)] for _ in range(16)]
+        for x in range(len(self.map)):
+            for y in range(len(self.map[x])):
+                encoded_map[x][y] = self.map_encoder_dict[str(self.map[x][y])]
+        return encoded_map
+
     
 
 def iter_test(controller,method):
@@ -109,7 +132,7 @@ def iter_test(controller,method):
     return data
 
 
-if True:
+if False:
     controller = Maze_bot(token)
     config =[0,0,1,0]
     yaw = 270

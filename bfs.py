@@ -16,9 +16,12 @@ class BFS(Maze_bot):
         res = self.get_sensor_data_converted()
         x = res["position_x"]
         y = res["position_y"]
-        walls   = res["current_wall_config_north"]
-        if walls == [1, 1, 1, 1]:
-            walls = [0, 0, 0, 0]
+        walls   = res["current_wall_config"]
+        """if walls == [1, 1, 1, 1]:
+            walls = [0, 0, 0, 0]"""
+        #with open("data_raw_log.txt","a") as f:
+            #data = self.sensor_data
+            #f.write(f"{data['position_x']},{data['position_y']},{data['current_wall_config'],{data['yaw']}} \n")
         self.queue.append((x, y, walls))
 
     def move_robot_forward(self):
@@ -110,6 +113,17 @@ class BFS(Maze_bot):
                 continue
 
             # print('------------------------------------------------------')
+        #print('--------------------------queu----------------------------')
+        #print(self.queue)
+        #print('--------------------------map----------------------------')
+        #print(self.map)
+        return self.encode_map()
         
-        self.visual.draw()
-        plt.show(block=True)
+        #self.visual.draw()
+        #plt.show(block=True)
+
+token = "5035d904-c58d-4e7f-a1bd-bcaf5d6c0bbd70b4e88a-2054-47b0-a4c3-d7950f5e4da3"
+alg = BFS(token)
+alg.restart()
+res = alg.algo()
+print(res)
