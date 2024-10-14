@@ -240,6 +240,7 @@ class BFS(Maze_bot):
 
 token = "0805a662-5a69-4af4-9062-ffbf77fc0f5f6872910f-a156-4c3c-96aa-190435dc0462"
 alg = BFS(token)
+# restart должен делаться в другом месте
 # alg.restart()
 res = alg.algo()
 res = str(res)
