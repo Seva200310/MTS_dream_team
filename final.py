@@ -100,7 +100,7 @@ class Maze_bot():
 
         #повораиваем данные относительно севера
         rotated_config = self.rotate_wall_config(wall_config, yaw)
-        self.map[self.position_x][self.position_y] = rotated_config
+        # self.map[self.position_x][self.position_y] = rotated_config
         return rotated_config,wall_config#Возращаем конфигурацию стен относительно севера и относительно робота
         
     def rotate_wall_config(self,wall_config, yaw):
@@ -178,7 +178,8 @@ class BFS(Maze_bot):
             # self.visual.draw()
 
             current_x, current_y, current_direction = self.queue[-1]
-            # self.map[current_x][current_y] = current_direction
+            # print(str(current_x) + " " + str(current_y) + " " + str(current_direction))
+            self.map[current_y][current_x] = current_direction
 
             self.visited.add((current_x, current_y))
 
@@ -237,11 +238,14 @@ class BFS(Maze_bot):
         #self.visual.draw()
         #plt.show(block=True)
 
-token = "5035d904-c58d-4e7f-a1bd-bcaf5d6c0bbd70b4e88a-2054-47b0-a4c3-d7950f5e4da3"
+token = "0805a662-5a69-4af4-9062-ffbf77fc0f5f6872910f-a156-4c3c-96aa-190435dc0462"
 alg = BFS(token)
-alg.restart()
+# alg.restart()
 res = alg.algo()
+res = str(res)
+res = res.rstrip(',')
+# print(res)
 url = f"http://127.0.0.1:8801/api/v1/matrix/send?token={token}"
 data = {'matrix': res}
 response = requests.post(url, json=data)
-print(response)
+# print(response)
