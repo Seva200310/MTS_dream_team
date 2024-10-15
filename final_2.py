@@ -30,7 +30,7 @@ class Maze_bot():
         self.route = []
 
     def restart(self):
-        response = requests.post(f"http://127.0.0.1:8801/api/v1/robot-cells/restart?token={self.token}")
+        response = requests.post(f"http://127.0.0.1:8801/api/v1/maze/restart?token={self.token}")
         return response.content
     def move_forward(self):#Движение вперед
         wall_config = self.sensor_data["current_wall_config"]
@@ -169,59 +169,58 @@ class BFS(Maze_bot):
         self.turn_right()
 
     def algo(self):
-        while True:
-            current_x, current_y, current_direction = self.queue[-1]
-            if (current_x == 7 or current_x == 8) and (current_y ==7 or current_y == 8):
-                break
-            self.visited.add((current_x, current_y))
+        for i in range(3):
+            self.restart()
+            while True:
+                current_x, current_y, current_direction = self.queue[-1]
+                if (current_x == 7 or current_x == 8) and (current_y ==7 or current_y == 8):
+                    break
+                self.visited.add((current_x, current_y))
 
-            # Добавление соседних клеток в очередь и их прохождение 
-            if (current_x, current_y - 1) not in self.visited and current_direction[0] == 0:
-                self.move_robot_forward()
-                self.add_queue()
-                continue
+                # Добавление соседних клеток в очередь и их прохождение 
+                if (current_x, current_y - 1) not in self.visited and current_direction[0] == 0:
+                    self.move_robot_forward()
+                    self.add_queue()
+                    continue
 
-            if (current_x + 1, current_y) not in self.visited and current_direction[1] == 0:
-                self.move_robot_right()
-                self.add_queue()
-                continue
+                if (current_x + 1, current_y) not in self.visited and current_direction[1] == 0:
+                    self.move_robot_right()
+                    self.add_queue()
+                    continue
 
-            if (current_x, current_y + 1) not in self.visited and current_direction[2] == 0:
-                self.move_robot_backward()
-                self.add_queue()
-                continue
+                if (current_x, current_y + 1) not in self.visited and current_direction[2] == 0:
+                    self.move_robot_backward()
+                    self.add_queue()
+                    continue
 
-            if (current_x - 1, current_y) not in self.visited and current_direction[3] == 0:
-                self.move_robot_left()
-                self.add_queue()
-                continue
+                if (current_x - 1, current_y) not in self.visited and current_direction[3] == 0:
+                    self.move_robot_left()
+                    self.add_queue()
+                    continue
 
-            # # Текущая клетка
-            # Текущую клетку надо удалить из self.queue
-            self.queue.pop()
-            # # Предыдущая клетка
-            # Предыдущую надо оставить
-            prev_x, prev_y, prev_direction = self.queue[-1]
-            # print("quere: " + str(self.queue))
-            # Идем в предыдущую клетку
-            if  current_y - prev_y == 1:
-                self.move_robot_forward()
-                continue
+                # # Текущая клетка
+                # Текущую клетку надо удалить из self.queue
+                self.queue.pop()
+                # # Предыдущая клетка
+                # Предыдущую надо оставить
+                prev_x, prev_y, prev_direction = self.queue[-1]
+                # print("quere: " + str(self.queue))
+                # Идем в предыдущую клетку
+                if  current_y - prev_y == 1:
+                    self.move_robot_forward()
+                    continue
 
-            if  prev_x - current_x == 1:
-                self.move_robot_right()
-                continue
+                if  prev_x - current_x == 1:
+                    self.move_robot_right()
+                    continue
 
-            if  prev_y - current_y == 1:
-                self.move_robot_backward()
-                continue
+                if  prev_y - current_y == 1:
+                    self.move_robot_backward()
+                    continue
 
-            if  current_x - prev_x:
-                self.move_robot_left()
-                continue
-
-
-        return self.encode_map()
+                if  current_x - prev_x:
+                    self.move_robot_left()
+                    continue
         
 
 token = "0805a662-5a69-4af4-9062-ffbf77fc0f5f6872910f-a156-4c3c-96aa-190435dc0462"
