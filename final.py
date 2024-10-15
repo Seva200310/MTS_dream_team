@@ -30,13 +30,13 @@ class Maze_bot():
         self.route = []
 
     def restart(self):
-        response = requests.post(f"http://127.0.0.1:8801/api/v1/robot-python/restart?token={self.token}")
+        response = requests.post(f"http://127.0.0.1:8801/api/v1/robot-cells/restart?token={self.token}")
         return response.content
     def move_forward(self):#Движение вперед
         wall_config = self.sensor_data["current_wall_config"]
         yaw = self.sensor_data["yaw"]
         if wall_config[0] == 0:
-            response = requests.post(f"http://127.0.0.1:8801/api/v1/robot-python/forward?token={self.token}")
+            response = requests.post(f"http://127.0.0.1:8801/api/v1/robot-cells/forward?token={self.token}")
             moving = [0,-1]
             rotated_moving = self.rotate_movement_vector(yaw,moving)
             self.position_x+=rotated_moving[0]
@@ -48,7 +48,7 @@ class Maze_bot():
         wall_config = self.sensor_data["current_wall_config"]
         yaw = self.sensor_data["yaw"]
         if wall_config[3] == 0:
-            requests.post(f"http://127.0.0.1:8801/api/v1/robot-python/backward?token={self.token}")
+            requests.post(f"http://127.0.0.1:8801/api/v1/robot-cells/backward?token={self.token}")
             moving = [0,1]
             rotated_moving = self.rotate_movement_vector(yaw,moving)
             self.position_x+=rotated_moving[0]
@@ -57,13 +57,13 @@ class Maze_bot():
         self.sensor_data  = self.get_sensor_data_converted()
         
     def turn_left(self):#Поворот налево
-        response = requests.post(f"http://127.0.0.1:8801/api/v1/robot-python/left?token={self.token}")
+        response = requests.post(f"http://127.0.0.1:8801/api/v1/robot-cells/left?token={self.token}")
         self.sensor_data  = self.get_sensor_data_converted()
     def turn_right(self):#поворот направо
-        response = requests.post(f"http://127.0.0.1:8801/api/v1/robot-python/right?token={self.token}")
+        response = requests.post(f"http://127.0.0.1:8801/api/v1/robot-cells/right?token={self.token}")
         self.sensor_data  = self.get_sensor_data_converted()
     def get_sensor_data(self):#получить сырые данные с сенсора
-        response = requests.get(f"http://127.0.0.1:8801/api/v1/robot-python/sensor-data?token={self.token}")
+        response = requests.get(f"http://127.0.0.1:8801/api/v1/robot-cells/sensor-data?token={self.token}")
         return json.loads(response.content)
     def get_sensor_data_converted(self):#функция которая возвращает sensor_data относительно ячееки матрицы info_mode просто возращает значения но не изменяют соответтвующее поле объекта
         data = self.get_sensor_data()
@@ -240,7 +240,6 @@ class BFS(Maze_bot):
 
 token = "0805a662-5a69-4af4-9062-ffbf77fc0f5f6872910f-a156-4c3c-96aa-190435dc0462"
 alg = BFS(token)
-# restart должен делаться в другом месте
 # alg.restart()
 res = alg.algo()
 res = str(res)
