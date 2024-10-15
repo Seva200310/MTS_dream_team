@@ -30,7 +30,7 @@ class Maze_bot():
         self.route = []
 
     def restart(self):
-        response = requests.post(f"http://127.0.0.1:8801/api/v1/robot-cells/restart?token={self.token}")
+        response = requests.post(f"http://127.0.0.1:8801/api/v1/maze/restart?token={self.token}")
         return response.content
     def move_forward(self):#Движение вперед
         wall_config = self.sensor_data["current_wall_config"]
